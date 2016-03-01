@@ -13,13 +13,35 @@ add_subdirectory(
 	./3rdparty/zlib
 )
 
+
+if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+	include_directories(AFTER
+		./3rdparty/openssl/openssl-win64/include
+	)
+else()
+	include_directories(AFTER
+		./3rdparty/openssl/openssl-win32/include
+	)
+endif()
+
+if(MSVC)
+	include_directories(AFTER
+		./msvc
+	)
+endif()
+
 # -----------------------------------------------------------------------------
+
+if(WIN32)
+	add_definitions(-D_WIN32_WINNT=0x0600)
+endif()
 
 set(grpc_source_dir
 	${CMAKE_CURRENT_SOURCE_DIR}/grpc/grpc-release-0_13_0
 )
 include_directories(AFTER
-	.
+	${grpc_source_dir}/include
+	${grpc_source_dir}
 )
 
 include(libgrpc.cmake)
@@ -29,6 +51,11 @@ include(libgrpc++.cmake)
 include(libgrpc++_unsecure.cmake)
 
 include(libgrpc_plugin_support.cmake)
+
+add_library(libgrpc
+	${libgrpc_source_files}
+	${libgrpc_header_files}
+)
 
 # -----------------------------------------------------------------------------
 
