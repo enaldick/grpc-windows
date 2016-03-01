@@ -2,54 +2,56 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-#project(ZLIB)
-
-#------------------------------------------------------------------------------
-# zlib
-
-set(ZLIB_ROOT
-	${CMAKE_CURRENT_SOURCE_DIR}/../third_party/zlib
-)
+project(ZLIB)
 
 include_directories(AFTER
-	${ZLIB_ROOT}
+	.
 )
 
 set(ZLIB_HDR
-	${ZLIB_ROOT}/zlib.h
-	${ZLIB_ROOT}/crc32.h
-	${ZLIB_ROOT}/deflate.h
-	${ZLIB_ROOT}/gzguts.h
-	${ZLIB_ROOT}/inffast.h
-	${ZLIB_ROOT}/inffixed.h
-	${ZLIB_ROOT}/inflate.h
-	${ZLIB_ROOT}/inftrees.h
-	${ZLIB_ROOT}/trees.h
-	${ZLIB_ROOT}/zutil.h
+	./zlib.h
+	./crc32.h
+	./deflate.h
+	./gzguts.h
+	./inffast.h
+	./inffixed.h
+	./inflate.h
+	./inftrees.h
+	./trees.h
+	./zutil.h
 )
 
 set(ZLIB_SRC
-	${ZLIB_ROOT}/adler32.c
-	${ZLIB_ROOT}/compress.c
-	${ZLIB_ROOT}/crc32.c
-	${ZLIB_ROOT}/deflate.c
-	${ZLIB_ROOT}/gzclose.c
-	${ZLIB_ROOT}/gzlib.c
-	${ZLIB_ROOT}/gzread.c
-	${ZLIB_ROOT}/gzwrite.c
-	${ZLIB_ROOT}/inflate.c
-	${ZLIB_ROOT}/infback.c
-	${ZLIB_ROOT}/inftrees.c
-	${ZLIB_ROOT}/inffast.c
-	${ZLIB_ROOT}/trees.c
-	${ZLIB_ROOT}/uncompr.c
-	${ZLIB_ROOT}/zutil.c
+	./adler32.c
+	./compress.c
+	./crc32.c
+	./deflate.c
+	./gzclose.c
+	./gzlib.c
+	./gzread.c
+	./gzwrite.c
+	./inflate.c
+	./infback.c
+	./inftrees.c
+	./inffast.c
+	./trees.c
+	./uncompr.c
+	./zutil.c
 )
 
-#add_executable(zlib_example
-#	${ZLIB_ROOT}/test/example.c
-#
-#	${ZLIB_HDR}
-#	${ZLIB_SRC}
-#)
+add_library(libzlib
+	${ZLIB_HDR}
+	${ZLIB_SRC}
+)
+install(TARGETS libzlib
+	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
 
+add_executable(zlib_example
+	./test/example.c
+)
+target_link_libraries(zlib_example
+	libzlib
+)
