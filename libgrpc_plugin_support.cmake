@@ -1,0 +1,82 @@
+# Copyright 2016 <chaishushan{AT}gmail.com>. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
+# copy from ${grpc_source_dir}/BUILD
+
+set(libgrpc_plugin_support_source_files
+	${grpc_source_dir}/include/grpc++/support/config.h
+	${grpc_source_dir}/include/grpc++/support/config_protobuf.h
+	${grpc_source_dir}/src/compiler/config.h
+	${grpc_source_dir}/src/compiler/cpp_generator.h
+	${grpc_source_dir}/src/compiler/cpp_generator_helpers.h
+	${grpc_source_dir}/src/compiler/csharp_generator.h
+	${grpc_source_dir}/src/compiler/csharp_generator_helpers.h
+	${grpc_source_dir}/src/compiler/generator_helpers.h
+	${grpc_source_dir}/src/compiler/objective_c_generator.h
+	${grpc_source_dir}/src/compiler/objective_c_generator_helpers.h
+	${grpc_source_dir}/src/compiler/python_generator.h
+	${grpc_source_dir}/src/compiler/ruby_generator.h
+	${grpc_source_dir}/src/compiler/ruby_generator_helpers-inl.h
+	${grpc_source_dir}/src/compiler/ruby_generator_map-inl.h
+	${grpc_source_dir}/src/compiler/ruby_generator_string-inl.h
+	${grpc_source_dir}/src/compiler/cpp_generator.cc
+	${grpc_source_dir}/src/compiler/csharp_generator.cc
+	${grpc_source_dir}/src/compiler/objective_c_generator.cc
+	${grpc_source_dir}/src/compiler/python_generator.cc
+	${grpc_source_dir}/src/compiler/ruby_generator.cc
+	${grpc_source_dir}/src/cpp/codegen/grpc_library.cc
+)
+
+set(libgrpc_plugin_support_header_files
+	${grpc_source_dir}/include/grpc++/impl/codegen/async_stream.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/async_unary_call.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/call.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/call_hook.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/channel_interface.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/client_context.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/client_unary_call.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/completion_queue.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/completion_queue_tag.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/config.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/config_protobuf.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/grpc_library.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/method_handler_impl.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/proto_utils.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/rpc_method.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/rpc_service_method.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/security/auth_context.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/serialization_traits.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/server_context.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/server_interface.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/service_type.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/status.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/status_code_enum.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/string_ref.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/stub_options.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/sync.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/sync_cxx11.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/sync_no_cxx11.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/sync_stream.h
+	${grpc_source_dir}/include/grpc++/impl/codegen/time.h
+	${grpc_source_dir}/include/grpc/impl/codegen/alloc.h
+	${grpc_source_dir}/include/grpc/impl/codegen/atm.h
+	${grpc_source_dir}/include/grpc/impl/codegen/atm_gcc_atomic.h
+	${grpc_source_dir}/include/grpc/impl/codegen/atm_gcc_sync.h
+	${grpc_source_dir}/include/grpc/impl/codegen/atm_win32.h
+	${grpc_source_dir}/include/grpc/impl/codegen/byte_buffer.h
+	${grpc_source_dir}/include/grpc/impl/codegen/compression_types.h
+	${grpc_source_dir}/include/grpc/impl/codegen/connectivity_state.h
+	${grpc_source_dir}/include/grpc/impl/codegen/grpc_types.h
+	${grpc_source_dir}/include/grpc/impl/codegen/log.h
+	${grpc_source_dir}/include/grpc/impl/codegen/port_platform.h
+	${grpc_source_dir}/include/grpc/impl/codegen/propagation_bits.h
+	${grpc_source_dir}/include/grpc/impl/codegen/slice.h
+	${grpc_source_dir}/include/grpc/impl/codegen/slice_buffer.h
+	${grpc_source_dir}/include/grpc/impl/codegen/status.h
+	${grpc_source_dir}/include/grpc/impl/codegen/sync.h
+	${grpc_source_dir}/include/grpc/impl/codegen/sync_generic.h
+	${grpc_source_dir}/include/grpc/impl/codegen/sync_posix.h
+	${grpc_source_dir}/include/grpc/impl/codegen/sync_win32.h
+	${grpc_source_dir}/include/grpc/impl/codegen/time.h
+)

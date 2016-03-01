@@ -4,6 +4,8 @@
 
 project(GRPC)
 
+# -----------------------------------------------------------------------------
+
 add_subdirectory(
 	./3rdparty/protorpc3-cxx
 )
@@ -11,9 +13,24 @@ add_subdirectory(
 	./3rdparty/zlib
 )
 
+# -----------------------------------------------------------------------------
+
+set(grpc_source_dir
+	${CMAKE_CURRENT_SOURCE_DIR}/grpc/grpc-release-0_13_0
+)
 include_directories(AFTER
 	.
 )
+
+include(libgrpc.cmake)
+include(libgrpc_unsecure.cmake)
+
+include(libgrpc++.cmake)
+include(libgrpc++_unsecure.cmake)
+
+include(libgrpc_plugin_support.cmake)
+
+# -----------------------------------------------------------------------------
 
 add_executable(grpc-hello
 	./hello.cc
@@ -26,4 +43,6 @@ install(TARGETS grpc-hello
 	LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
 	ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
+
+# -----------------------------------------------------------------------------
 
