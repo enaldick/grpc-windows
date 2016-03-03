@@ -7,19 +7,23 @@ setlocal
 cd %~dp0
 
 :: ----------------------------------------------------------------------------
+
+set TARGET=hiuis3-0.0.0.0-win64
+for /f "delims=" %%x in (VERSION.txt) do (set TARGET=hiuis3-%%x-win64)
+
+:: ----------------------------------------------------------------------------
+:: build ccpkg
+
+call ..\ccpkg\build.bat
+cd %~dp0
+
+:: ----------------------------------------------------------------------------
 :: Setup MSVC
 
-:: VS2010
-if not "x%VS100COMNTOOLS%" == "x" (
-	echo Setup VS2010 Win64 ...
-	call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
-	goto build
-)
-
-:: VS2012
-if not "x%VS110COMNTOOLS%" == "x" (
-	echo Setup VS2012 Win64 ...
-	call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+:: VS2015
+if not "x%VS140COMNTOOLS%" == "x" (
+	echo Setup VS2015 Win64 ...
+	call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
 	goto build
 )
 
@@ -30,10 +34,26 @@ if not "x%VS120COMNTOOLS%" == "x" (
 	goto build
 )
 
+:: VS2012
+if not "x%VS110COMNTOOLS%" == "x" (
+	echo Setup VS2012 Win64 ...
+	call "%VS110COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+	goto build
+)
+
+:: VS2010
+if not "x%VS100COMNTOOLS%" == "x" (
+	echo Setup VS2010 Win64 ...
+	call "%VS100COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+	goto build
+)
+
 :build
 
 :: -----------------------------------------------------------------------------
 :: BUG: http://public.kitware.com/Bug/bug_relationship_graph.php?bug_id=14693&graph=relation
+
+del /Q hiuis3.exe
 
 mkdir zz_build_win64_release
 cd    zz_build_win64_release
@@ -56,6 +76,41 @@ cmake ..^
 nmake install
 
 cd ..
+
+if not exist hiuis3.exe (
+	goto end
+)
+
+:: -----------------------------------------------------------------------------
+:: pack
+
+mkdir                        %TARGET%
+xcopy /S/I example           %TARGET%\example 
+xcopy /S/I include           %TARGET%\include
+xcopy /S/I testdata          %TARGET%\testdata
+copy ..\..\bin\Depends64.exe %TARGET%
+copy hiuis3-win64.lib         %TARGET%
+copy hiuis3-win64.dll         %TARGET%
+copy hiuis3test.exe           %TARGET%
+copy hiuis3.exe               %TARGET%
+copy hiuis3.ini               %TARGET%
+copy README.html             %TARGET%
+copy README.md               %TARGET%
+copy CHANGELIST.html         %TARGET%
+copy CHANGELIST.md           %TARGET%
+copy VERSION.txt             %TARGET%
+
+:: make zip
+7za a %TARGET%.zip -tzip %TARGET% -y >7za-stdout.txt
+del /Q 7za-stdout.txt
+rmdir /S/Q %TARGET%
+
+:: remove zip if not hiuis3.exe
+if not exist hiuis3.exe (
+	del /Q %TARGET%.zip
+)
+
+echo hiuis3/build-win64.bat Done
 
 :: -----------------------------------------------------------------------------
 :end
