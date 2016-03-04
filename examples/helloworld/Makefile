@@ -4,4 +4,4 @@
 
 default:
 	protoc --cpp_out=. helloworld.proto
-	protoc --grpc_out=. --plugin=protoc-gen-grpc=grpc_cpp_plugin.exe helloworld.proto
+	protoc --grpc_out=. --plugin=protoc-gen-grpc=../../bin/grpc_cpp_plugin.exe helloworld.proto

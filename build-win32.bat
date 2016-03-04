@@ -7,17 +7,6 @@ setlocal
 cd %~dp0
 
 :: ----------------------------------------------------------------------------
-
-set TARGET=hiuis3-0.0.0.0-win32
-for /f "delims=" %%x in (VERSION.txt) do (set TARGET=hiuis3-%%x-win32)
-
-:: ----------------------------------------------------------------------------
-:: build ccpkg
-
-call ..\ccpkg\build.bat
-cd %~dp0
-
-:: ----------------------------------------------------------------------------
 :: Setup MSVC
 
 :: VS2015
@@ -52,8 +41,6 @@ if not "x%VS100COMNTOOLS%" == "x" (
 
 :: -----------------------------------------------------------------------------
 
-del /Q hiuis3.exe
-
 mkdir zz_build_win32_release
 cd    zz_build_win32_release
 
@@ -79,37 +66,6 @@ cd ..
 if not exist hiuis3.exe (
 	goto end
 )
-
-:: -----------------------------------------------------------------------------
-:: pack
-
-mkdir                        %TARGET%
-xcopy /S/I example           %TARGET%\example 
-xcopy /S/I include           %TARGET%\include
-xcopy /S/I testdata          %TARGET%\testdata
-copy ..\..\bin\Depends32.exe %TARGET%
-copy hiuis3-win32.lib         %TARGET%
-copy hiuis3-win32.dll         %TARGET%
-copy hiuis3test.exe           %TARGET%
-copy hiuis3.exe               %TARGET%
-copy hiuis3.ini               %TARGET%
-copy README.html             %TARGET%
-copy README.md               %TARGET%
-copy CHANGELIST.html         %TARGET%
-copy CHANGELIST.md           %TARGET%
-copy VERSION.txt             %TARGET%
-
-:: make zip
-7za a %TARGET%.zip -tzip %TARGET% -y >7za-stdout.txt
-del /Q 7za-stdout.txt
-rmdir /S/Q %TARGET%
-
-:: remove zip if not hiuis3.exe
-if not exist hiuis3.exe (
-	del /Q %TARGET%.zip
-)
-
-echo hiuis3/build-win32.bat Done
 
 :: -----------------------------------------------------------------------------
 :end
