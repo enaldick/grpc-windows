@@ -65,7 +65,7 @@ if(WIN32)
 endif()
 
 set(grpc_source_dir
-	${CMAKE_CURRENT_SOURCE_DIR}/grpc/grpc-release-0_13_0
+	${CMAKE_CURRENT_SOURCE_DIR}/grpc-release-0_13_0
 )
 include_directories(AFTER
 	${grpc_source_dir}/include
@@ -92,6 +92,11 @@ target_link_libraries(libgrpc
 	libprotobuf
 	libzlib
 )
+install(TARGETS libgrpc
+	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
 
 add_library(libgrpc_unsecure
 	${libgrpc_unsecure_source_files}
@@ -105,6 +110,11 @@ target_link_libraries(libgrpc_unsecure
 	libprotobuf
 	libzlib
 )
+install(TARGETS libgrpc_unsecure
+	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/lib
+)
 
 add_executable(grpc_cpp_plugin
 	${grpc_source_dir}/src/compiler/cpp_plugin.cc
@@ -115,6 +125,11 @@ add_executable(grpc_cpp_plugin
 target_link_libraries(grpc_cpp_plugin
 	libprotoc
 	libzlib
+)
+install(TARGETS grpc_cpp_plugin
+	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
+	ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/lib
 )
 
 # -----------------------------------------------------------------------------
