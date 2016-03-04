@@ -5,41 +5,57 @@
 project(GRPC)
 
 # -----------------------------------------------------------------------------
+# 3rdparty
 
-add_subdirectory(
-	${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protorpc3-cxx
-)
-add_subdirectory(
-	${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zlib
-)
+# Protobuf
+set(PROTOBUF_ROOT ${PROJECT_SOURCE_DIR}/3rdparty/protobuf)
+include_directories(AFTER ${PROTOBUF_ROOT}/protobuf-3.0.0-beta-2/src)
+add_subdirectory(${PROTOBUF_ROOT})
 
-include_directories(AFTER
-	${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/protorpc3-cxx/protobuf/protobuf-3.0.0-beta-2/src
-	${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/zlib
-)
+# zlib
+set(ZLIB_ROOT ${PROJECT_SOURCE_DIR}/3rdparty/zlib)
+include_directories(AFTER ${ZLIB_ROOT})
+add_subdirectory(${ZLIB_ROOT})
 
-if(CMAKE_SIZEOF_VOID_P EQUAL 8)
-	include_directories(AFTER
-		${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/openssl/openssl-win64/include
-	)
-	link_directories(
-		${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/openssl/openssl-win64/lib
-	)
-else()
-	include_directories(AFTER
-		${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/openssl/openssl-win32/include
-	)
-	link_directories(
-		${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/openssl/openssl-win32/lib
-	)
-endif()
+# cc-mini-test
+set(CC_MINI_TEST_ROOT ${PROJECT_SOURCE_DIR}/3rdparty/cc-mini-test)
+include_directories(AFTER ${CC_MINI_TEST_ROOT})
+add_subdirectory(${CC_MINI_TEST_ROOT})
+
+# -----------------------------------------------------------------------------
+# openssl
+
+set(OPENSSL_ROOT ${PROJECT_SOURCE_DIR}/3rdparty/openssl)
 
 if(WIN32)
-	set(OPENSSL_LIB
-		libeay32.lib
-		ssleay32.lib
-		ws2_32.lib
-	)
+	if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+		include_directories(AFTER
+			${OPENSSL_ROOT}/openssl-win64/include
+		)
+		link_directories(
+			${OPENSSL_ROOT}/openssl-win64/lib
+		)
+		install(PROGRAMS
+			${OPENSSL_ROOT}/openssl-win64/bin/libeay32.dll
+			${OPENSSL_ROOT}/openssl-win64/bin/ssleay32.dll
+			DESTINATION ${PROJECT_SOURCE_DIR}/bin
+		)
+	else()
+		include_directories(AFTER
+			${OPENSSL_ROOT}/openssl-win32/include
+		)
+		link_directories(
+			${OPENSSL_ROOT}/openssl-win32/lib
+		)
+		install(PROGRAMS
+			${OPENSSL_ROOT}/openssl-win32/bin/libeay32.dll
+			${OPENSSL_ROOT}/openssl-win32/bin/ssleay32.dll
+			DESTINATION ${PROJECT_SOURCE_DIR}/bin
+		)
+	endif()
+
+	# openssl libs
+	set(OPENSSL_LIB libeay32.lib ssleay32.lib ws2_32.lib)
 endif()
 
 # -----------------------------------------------------------------------------
@@ -71,12 +87,23 @@ add_library(libgrpc
 	${libgrpc_cpp_source_files}
 	${libgrpc_cpp_header_files}
 )
+target_link_libraries(libgrpc
+	${OPENSSL_LIB}
+	libprotobuf
+	libzlib
+)
+
 add_library(libgrpc_unsecure
 	${libgrpc_unsecure_source_files}
 	${libgrpc_unsecure_header_files}
 
 	${libgrpc_unsecure_cpp_source_files}
 	${libgrpc_unsecure_cpp_header_files}
+)
+target_link_libraries(libgrpc_unsecure
+	${OPENSSL_LIB}
+	libprotobuf
+	libzlib
 )
 
 add_executable(grpc_cpp_plugin
@@ -101,10 +128,7 @@ add_executable(greeter_server
 	./examples/helloworld/helloworld.grpc.pb.cc
 )
 target_link_libraries(greeter_server
-	${OPENSSL_LIB}
 	libgrpc
-	libprotorpc
-	libzlib
 )
 install(TARGETS greeter_server
 	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
@@ -121,10 +145,7 @@ add_executable(greeter_client
 	./examples/helloworld/helloworld.grpc.pb.cc
 )
 target_link_libraries(greeter_client
-	${OPENSSL_LIB}
 	libgrpc
-	libprotorpc
-	libzlib
 )
 install(TARGETS greeter_client
 	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
@@ -139,8 +160,6 @@ add_executable(grpc-hello
 )
 target_link_libraries(grpc-hello
 	libgrpc
-	libprotorpc
-	libzlib
 )
 install(TARGETS grpc-hello
 	RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/bin
