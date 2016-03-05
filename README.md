@@ -1,7 +1,9 @@
-# Build GRPC with CMake/MSVC2015 on Windows
+# Build GRPC with CMake on Windows/OSX
 
 - http://www.grpc.io/
 - http://doc.oschina.net/grpc (简体中文)
+
+# Build on Windows with MSVC2015
 
 ## Generate `GRPC.sln` for debug (WIN32)
 
@@ -23,8 +25,12 @@
 - Add `./3rdparty/openssl/openssl-win64/bin` to `$PATH`
 - Run `build-win43.bat`
 
+# Build on OSX
 
-## BUGS
+- Install [CMake3.1+][CMake] and GCC
+- Build with CMake
+
+# BUGS
 
 Report bugs to <chaishushan@gmail.com>.
 
@@ -33,4 +39,3 @@ Thanks!
 
 [CMake]: http://www.cmake.org/
 [MSVC2015]: https://www.visualstudio.com/
-
