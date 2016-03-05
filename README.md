@@ -27,7 +27,8 @@
 
 # Build on OSX
 
-- Install [CMake3.1+][CMake] and GCC
+- Install [CMake][CMake] and GCC
+- Install OpenSSL: `brew install openssl`
 - Build with CMake
 
 # BUGS
