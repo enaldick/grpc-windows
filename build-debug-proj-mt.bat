@@ -11,7 +11,7 @@ cd %~dp0
 
 :: VS2015
 if not "x%VS140COMNTOOLS%" == "x" (
-	echo Setup VS2015 Win64 ...
+	echo Setup VS2015 Win32 ...
 	call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat"
 	goto build
 )
@@ -41,4 +41,3 @@ cmake ..^
 cd ..
 
 @rem --------------------------------------------------------------------------
-

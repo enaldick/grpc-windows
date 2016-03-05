@@ -10,6 +10,13 @@ cd %~dp0
 :: Setup MSVC
 :: ----------------------------------------------------------------------------
 
+:: VS2015
+if not "x%VS140COMNTOOLS%" == "x" (
+	echo Setup VS2015 Win64 ...
+	call "%VS140COMNTOOLS%\..\..\VC\vcvarsall.bat" x86_amd64
+	goto build
+)
+
 :: VS2013
 if not "x%VS120COMNTOOLS%" == "x" (
 	echo Setup VS2013 Win64 ...
@@ -46,7 +53,7 @@ cd %~dp0\openssl-1.0.2f
 perl Configure VC-WIN64A no-shared --prefix=%TARGET%
 call ms\do_win64a.bat
 nmake -f ms\ntdll.mak clean
-nmake -f ms\ntdll.mak 
+nmake -f ms\ntdll.mak
 nmake -f ms\ntdll.mak install
 cd ..
 
