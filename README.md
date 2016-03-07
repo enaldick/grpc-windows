@@ -23,7 +23,7 @@
 
 - Install [CMake3.1+][CMake] and [MSVC2015][MSVC2015]
 - Add `./3rdparty/openssl/openssl-win64/bin` to `$PATH`
-- Run `build-win43.bat`
+- Run `build-win64.bat`
 
 # Build on OSX
 
